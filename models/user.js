@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+
 const UserScheme = mongoose.Schema({
   firstName: {
     type: String,
@@ -28,3 +30,29 @@ const UserScheme = mongoose.Schema({
 });
 
 const User = (module.exports = mongoose.model('users', UserScheme));
+
+// ! Protect password with Librari bcryptjs
+module.exports.addUser = async (newUser, callback) => {
+  try {
+    // Генерація солі для хешування пароля
+    const salt = await bcrypt.genSalt(10);
+    // Хешування пароля з використанням солі
+    const hash = await bcrypt.hash(newUser.password, salt);
+    // Заміна відкритого тексту пароля хешем
+    newUser.password = hash;
+    // Збереження нового користувача в базі даних
+    const savedUser = await newUser.save();
+    // Виклик зворотнього виклику з результатом
+    callback(null, savedUser);
+  } catch (err) {
+    // Виклик зворотнього виклику з помилкою
+    callback(err);
+  }
+};
+
+module.exports.comparePass = (passFromUser, userDBPass, callback) => {
+  bcrypt.compare(passFromUser, userDBPass, (error, isMatch) => {
+    if (error) throw error;
+    callback(null, isMatch);
+  });
+};

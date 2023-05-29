@@ -28,10 +28,11 @@ mongoose.connect(mongodb, {
 });
 
 // ! Hooks
+// * If connected
 mongoose.connection.on('connected', () => {
   log('Connected to DB!');
 });
-
+// * If error
 mongoose.connection.on('error', (error) => {
   log('Connected to DB failed:'(error));
 });
