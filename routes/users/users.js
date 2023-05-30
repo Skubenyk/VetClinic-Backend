@@ -139,6 +139,7 @@ router.get('/:id', async (req, res) => {
     let user;
     // * Перевірка чи verifyUser існує
     const verifyUser = jwt.verify(authorization, config.secret);
+    console.log(verifyUser);
 
     if (!verifyUser) {
       return res.status(401).json({
