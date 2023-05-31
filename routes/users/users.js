@@ -187,22 +187,63 @@ router.get('/:id', async (req, res) => {
 });
 
 // ! Відправка даних форми на пошту
+// const nodemailer = require('nodemailer');
+
+// async function sendEmail(formData) {
+//   try {
+//     // Створюємо транспорт для відправки пошти (приклад для Gmail)
+//     const transporter = nodemailer.createTransport({
+//       service: 'Gmail',
+//       auth: {
+//         user: 'skubenik@gmail.com', // Ваша електронна пошта
+//         pass: 'skubenik3250', // Ваш пароль для електронної пошти
+//       },
+//     });
+
+//     // Налаштування електронного листа
+//     const mailOptions = {
+//       from: 'skubenik@gmail.com',
+//       to: 'yrskubenik@gmail.com', // Електронна пошта одержувача
+//       subject: 'Новий запис на прийом',
+//       text: `Имя: ${formData.name}\nТелефон: ${formData.tel}\nТекст: ${formData.text}`,
+//     };
+
+//     // Відправка електронної пошти
+//     const result = await transporter.sendMail(mailOptions);
+//     console.log('Email sent:', result.response);
+//   } catch (error) {
+//     console.error('Error sending email:', error);
+//   }
+// }
+// router.post('/send-email', (req, res) => {
+//   // Отримання даних форми з req.body
+//   const formData = req.body;
+
+//   // Відправка електронної пошти
+//   sendEmail(formData);
+
+//   // Відповідь на запит
+//   res.status(200).json({ message: 'Email sent successfully' });
+// });
+
 const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
 
 async function sendEmail(formData) {
   try {
-    // Створюємо транспорт для відправки пошти (приклад для Gmail)
-    const transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-        user: 'skubenik@gmail.com', // Ваша електронна пошта
-        pass: 'skubenik3250', // Ваш пароль для електронної пошти
-      },
-    });
+    // Конфігурація транспорту для відправки пошти через SendGrid
+    const transporter = nodemailer.createTransport(
+      sendgridTransport({
+        auth: {
+          api_key:
+            'SG.0lyxidcLTT-0oXXffgybaA.6C-0Lwyg5NkyOJU-G0LuUrAHkUQxX-G0ewPylXnAYSY', // Ключ API SendGrid
+        },
+      })
+    );
 
     // Налаштування електронного листа
     const mailOptions = {
-      from: 'skubenik@gmail.com',
+      from: 'skubenik@gmail.com', // Ваша електронна пошта
       to: 'yrskubenik@gmail.com', // Електронна пошта одержувача
       subject: 'Новий запис на прийом',
       text: `Имя: ${formData.name}\nТелефон: ${formData.tel}\nТекст: ${formData.text}`,
