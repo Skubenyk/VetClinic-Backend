@@ -195,14 +195,14 @@ async function sendEmail(formData) {
     const transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
-        user: 'yrskubenik@gmail.com', // Ваша електронна пошта
-        pass: 'yrskubenik3250', // Ваш пароль для електронної пошти
+        user: 'skubenik@gmail.com', // Ваша електронна пошта
+        pass: 'skubenik3250', // Ваш пароль для електронної пошти
       },
     });
 
     // Налаштування електронного листа
     const mailOptions = {
-      from: 'yrskubenik@gmail.com',
+      from: 'skubenik@gmail.com',
       to: 'yrskubenik@gmail.com', // Електронна пошта одержувача
       subject: 'Новий запис на прийом',
       text: `Имя: ${formData.name}\nТелефон: ${formData.tel}\nТекст: ${formData.text}`,
