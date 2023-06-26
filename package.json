@@ -2,7 +2,7 @@
   "devDependencies": {
     "nodemon": "^2.0.22"
   },
-  "name": "vetclinic-react_fullstack",
+  "name": "VetClinic-Backend",
   "description": "",
   "version": "1.0.0",
   "main": "index.js",
